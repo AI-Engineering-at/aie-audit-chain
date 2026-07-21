@@ -233,7 +233,7 @@ jobs:
     needs: [lint-python, lint-typescript]
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
       - uses: actions/setup-node@v6
@@ -253,7 +253,7 @@ jobs:
     # routers shipped unguarded (audit A-C1..C7, fixed in v0.2.1).
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
       - run: python scripts/audit-router-coverage.py
@@ -272,7 +272,7 @@ jobs:
     if: github.actor != 'dependabot[bot]' || contains(github.event.pull_request.labels.*.name, 'security-audit')
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
       - uses: actions/setup-node@v6
