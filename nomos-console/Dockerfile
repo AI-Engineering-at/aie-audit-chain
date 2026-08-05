@@ -1,18 +1,18 @@
 # NomOS Console — Multi-stage Docker Build
 # Digest-pinned 2026-05-19 for reproducible builds (still node:22-alpine, no version change)
-FROM node:22-alpine@sha256:968df39aedcea65eeb078fb336ed7191baf48f972b4479711397108be0966920 AS deps
+FROM node:25-alpine@sha256:bdf2cca6fe3dabd014ea60163eca3f0f7015fbd5c7ee1b0e9ccb4ced6eb02ef4 AS deps
 WORKDIR /app
 COPY nomos-console/package.json nomos-console/package-lock.json ./
 RUN npm ci --production=false
 
-FROM node:22-alpine@sha256:968df39aedcea65eeb078fb336ed7191baf48f972b4479711397108be0966920 AS builder
+FROM node:25-alpine@sha256:bdf2cca6fe3dabd014ea60163eca3f0f7015fbd5c7ee1b0e9ccb4ced6eb02ef4 AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY nomos-console/ ./
 ENV NOMOS_API_URL=http://nomos-api:8000
 RUN npm run build
 
-FROM node:22-alpine@sha256:968df39aedcea65eeb078fb336ed7191baf48f972b4479711397108be0966920 AS runner
+FROM node:25-alpine@sha256:bdf2cca6fe3dabd014ea60163eca3f0f7015fbd5c7ee1b0e9ccb4ced6eb02ef4 AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 ENV HOSTNAME=0.0.0.0
